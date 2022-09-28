@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
-const Navbar = () => {
+const Header = () => {
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const navigateProfile = () => {
@@ -16,17 +16,14 @@ const Navbar = () => {
                             <i className="fa fa-bars"></i>
                         </button>
                         <NavLink to="/">
-                            {/* <img src="/auc.png" alt="logo" style={{ height: "90px" }} /> */}
                             <h1 className="title text-center text-dark"> AuctiON</h1>
                         </NavLink>
                         <button className="navbar-toggler" type="button" onClick={navigateProfile}>
-                            {/* <i className="fa fa-shopping-cart"></i> */}
                             <i className="fa fa-user"></i>
                         </button>
                         <div className="offcanvas offcanvas-start" tabIndex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                             <div className="offcanvas-header">
                                 <NavLink to="/">
-                                    {/* <img src="/Auction-logos.jpeg" alt="logo" style={{ height: "90px" }} /> */}
                                     <h1 className="title text-center text-dark"> AuctiON</h1>
                                 </NavLink>
                                 <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -45,4 +42,4 @@ const Navbar = () => {
     }
 }
 
-export default Navbar;
+export default Header;

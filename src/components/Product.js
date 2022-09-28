@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router';
 import Skeleton from 'react-loading-skeleton';
 import { NavLink } from 'react-router-dom';
-import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from 'axios';
 
 function Product() {
@@ -16,7 +14,6 @@ function Product() {
     const PRICE_REGEX = /^\d+(\.\d+)*$/;
     const [price, setPrice] = useState('');
     const [validPrice, setValidPrice] = useState(false);
-    const [priceFocus, setPriceFocus] = useState(false);
 
     useEffect(() => {
         setValidPrice(PRICE_REGEX.test(price));
@@ -90,19 +87,12 @@ function Product() {
     const [errMsg, setErrMsg] = useState('');
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // if button enabled with JS hack
         const v1 = PRICE_REGEX.test(price);
         if (!v1) {
             setErrMsg("Invalid price");
             return;
         }
         try {
-            console.log(localStorage.getItem("token"));
-            console.log(id);
-            console.log(price);
-            // const params = new URLSearchParams({
-            //     price: price
-            // }).toString();
             axios
                 .put(
                     `http://localhost:8080/api/adverts/price/${id}?price=${price}`,
@@ -114,9 +104,6 @@ function Product() {
                 );
             setPrice('');
             setProduct(product);
-            // const response = await fetch(`http://localhost:8080/api/adverts/${id}`);
-            // const data = await response.json();
-            // setProduct(data);
             setProductPrice(price);
         } catch (err) {
             setErrMsg('Failed to offer a price')
@@ -152,21 +139,14 @@ function Product() {
                                             <h5 className="text-uppercase">
                                                 {product.title}
                                             </h5>
-
-                                            {/* Rating {product.rating && product.rating.rate}
-                                            <i className="fa fa-star text-warning"></i> */}
-
                                             <div className="price d-flex flex-row align-items-center">
-                                                {/* <big className="display-6"><b>${product.price}</b></big> */}
                                                 <big className="display-6"><b>${productPrice}</b></big>
                                             </div>
                                         </div>
                                         <div className="d-flex flex-row align-items-center">
                                             <p className="text-muted">{product.description}</p>
                                         </div>
-                                        {/* <div className="cart mt-4 align-items-center"> <button className="btn btn-outline-dark text-uppercase mr-2 px-4">Buy</button></div> */}
                                         <section>
-                                            {/* <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p> */}
                                             <h5>State your offered price:</h5>
                                             <form onSubmit={handleSubmit}>
                                                 <input
@@ -176,8 +156,6 @@ function Product() {
                                                     value={price}
                                                     aria-invalid={validPrice ? "false" : "true"}
                                                     aria-describedby="pricenote"
-                                                // onFocus={() => setPriceFocus(true)}
-                                                // onBlur={() => setPriceFocus(false)}
                                                 />
                                                 <button
                                                     disabled={!validPrice ? true : false}

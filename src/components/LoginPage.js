@@ -5,11 +5,10 @@ import AuthContext from '../context/AuthProvider';
 import axios from 'axios';
 import { Link, Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 
-const SignInPage = () => {
+const LoginPage = () => {
     const { setAuth } = useContext(AuthContext);
     const userRef = useRef();
     const errRef = useRef();
-    //const { setIsLogin } = useContext(Context);
 
     const [user, setUser] = useState('');
     const [pwd, setPwd] = useState('');
@@ -45,15 +44,12 @@ const SignInPage = () => {
             ) 
             if (response.status == 200) {
                 const userToken = response.headers.authorization;
-                console.log(userToken);
                 localStorage.setItem('token', userToken);
-                //setAuth({ user, pwd, userToken });
                 setAuth({ userToken });
                 setUser('');
                 setPwd('');
             }
             setSuccess(true);
-            console.log('success');
             navigateFeed();
         } catch (err) {
             if (!err?.response) {
@@ -112,6 +108,6 @@ const SignInPage = () => {
         </div>
     )
 }
-export default SignInPage;
+export default LoginPage;
 
 

@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react'
-import Navbar from './components/Navbar';
+import Header from './components/Header';
 import Home from './components/Home';
 import Products from './components/Products';
 import Product from './components/Product';
@@ -18,7 +18,7 @@ import { AuthProvider } from './context/AuthProvider';
 function App() {
   return (
     <>
-      <Navbar />
+      <Header />
       <Routes>
       <Route exact path="/" element={<LandingPage />} />
         <Route path="/products" element={<Products />} />
