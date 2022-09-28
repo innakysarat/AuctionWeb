@@ -4,12 +4,14 @@ import Skeleton from 'react-loading-skeleton';
 import { NavLink } from 'react-router-dom';
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from 'axios';
 
 function Product() {
 
     const { id } = useParams();
     const [product, setProduct] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [productPrice, setProductPrice] = useState('');
 
     const PRICE_REGEX = /^\d+(\.\d+)*$/;
     const [price, setPrice] = useState('');
@@ -23,10 +25,10 @@ function Product() {
     useEffect(() => {
         const getProduct = async () => {
             setLoading(true);
-            // const response = await fetch(`https://fakestoreapi.com/products/${id}`);
             const response = await fetch(`http://localhost:8080/api/adverts/${id}`);
             const data = await response.json();
             setProduct(data);
+            setProductPrice(data.price);
             setLoading(false);
         }
         getProduct();
@@ -95,11 +97,27 @@ function Product() {
             return;
         }
         try {
-            const requestOptions = {
-                method: 'PUT'
-            };
-            await fetch(`http://localhost:8080/api/adverts/${id}?price=${price}&buyer_id=2`, requestOptions);
+            console.log(localStorage.getItem("token"));
+            console.log(id);
+            console.log(price);
+            // const params = new URLSearchParams({
+            //     price: price
+            // }).toString();
+            axios
+                .put(
+                    `http://localhost:8080/api/adverts/price/${id}?price=${price}`,
+                    {
+                        headers: {
+                            Authorization: localStorage.getItem("token"),
+                        },
+                    }
+                );
             setPrice('');
+            setProduct(product);
+            // const response = await fetch(`http://localhost:8080/api/adverts/${id}`);
+            // const data = await response.json();
+            // setProduct(data);
+            setProductPrice(price);
         } catch (err) {
             setErrMsg('Failed to offer a price')
             errRef.current.focus();
@@ -110,7 +128,7 @@ function Product() {
             <>
                 <div className="row d-flex justify-content-center">
                     <div className="col-md-12">
-                        <NavLink className="text-decoration-none text-dark" to={`/`}>
+                        <NavLink className="text-decoration-none text-dark" to={`/home`}>
                             <div className="d-flex align-items-center m-3">
                                 <i className="fa fa-long-arrow-left"></i>
                                 <span className="ml-1">&nbsp;Back</span>
@@ -121,7 +139,6 @@ function Product() {
                                 <div className="col-md-6">
                                     <div className="images p-3">
                                         <div className="text-center p-4">
-                                            {/* <img id="main-image" alt="product" src={product.image} width="250" /> */}
                                             <img id="main-image" alt="product" src={product.advertImageLink} width="250" />
                                         </div>
                                     </div>
@@ -140,20 +157,18 @@ function Product() {
                                             <i className="fa fa-star text-warning"></i> */}
 
                                             <div className="price d-flex flex-row align-items-center">
-                                                <big className="display-6"><b>${product.price}</b></big>
+                                                {/* <big className="display-6"><b>${product.price}</b></big> */}
+                                                <big className="display-6"><b>${productPrice}</b></big>
                                             </div>
                                         </div>
-                                        <p className="text-muted">{product.description}</p>
+                                        <div className="d-flex flex-row align-items-center">
+                                            <p className="text-muted">{product.description}</p>
+                                        </div>
                                         {/* <div className="cart mt-4 align-items-center"> <button className="btn btn-outline-dark text-uppercase mr-2 px-4">Buy</button></div> */}
                                         <section>
                                             {/* <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p> */}
                                             <h5>State your offered price:</h5>
                                             <form onSubmit={handleSubmit}>
-                                                {/* <label htmlFor="price">
-                                                    Price:
-                                                    <FontAwesomeIcon icon={faCheck} className={validPrice ? "valid" : "hide"} />
-                                                    <FontAwesomeIcon icon={faTimes} className={validPrice || !price ? "hide" : "invalid"} />
-                                                </label> */}
                                                 <input
                                                     type="text"
                                                     id="price"
@@ -161,13 +176,9 @@ function Product() {
                                                     value={price}
                                                     aria-invalid={validPrice ? "false" : "true"}
                                                     aria-describedby="pricenote"
-                                                    // onFocus={() => setPriceFocus(true)}
-                                                    // onBlur={() => setPriceFocus(false)}
+                                                // onFocus={() => setPriceFocus(true)}
+                                                // onBlur={() => setPriceFocus(false)}
                                                 />
-                                                {/* <p id="pricenote" className={priceFocus && !validPrice ? "instructions" : "offscreen"}>
-                                                    <FontAwesomeIcon icon={faInfoCircle} />
-                                                    Price should be greater than minimum specified by a buyer.<br />
-                                                </p> */}
                                                 <button
                                                     disabled={!validPrice ? true : false}
                                                 >Offer price</button>
@@ -194,4 +205,4 @@ function Product() {
     )
 }
 
-export default Product
+export default Product;

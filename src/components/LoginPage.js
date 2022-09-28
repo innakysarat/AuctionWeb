@@ -9,6 +9,7 @@ const SignInPage = () => {
     const { setAuth } = useContext(AuthContext);
     const userRef = useRef();
     const errRef = useRef();
+    //const { setIsLogin } = useContext(Context);
 
     const [user, setUser] = useState('');
     const [pwd, setPwd] = useState('');
@@ -18,7 +19,7 @@ const SignInPage = () => {
     const navigate = useNavigate();
 
     const navigateFeed = () => {
-        navigate('/products');
+        navigate('/home');
     };
 
     // set a focus on a first input
@@ -41,12 +42,13 @@ const SignInPage = () => {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
                 }
-            );
+            ) 
             if (response.status == 200) {
                 const userToken = response.headers.authorization;
                 console.log(userToken);
                 localStorage.setItem('token', userToken);
-                setAuth({ user, pwd, userToken });
+                //setAuth({ user, pwd, userToken });
+                setAuth({ userToken });
                 setUser('');
                 setPwd('');
             }
@@ -105,7 +107,7 @@ const SignInPage = () => {
             </form>
             <footer>
                 <p>First time? <Link to="/register">Create an account</Link>.</p>
-                <p><Link to="/">Back to Homepage</Link>.</p>
+                <p><Link to="/home">Back to Homepage</Link>.</p>
             </footer>
         </div>
     )

@@ -12,7 +12,6 @@ function Products() {
         let componentMounted = true;
         const getProdcuts = async () => {
             setLoading(true);
-            // const response = await fetch('https://fakestoreapi.com/products');
             const response = await fetch('http://localhost:8080/api/adverts');
             if (componentMounted) {
                 const data = await response.json();
@@ -37,7 +36,7 @@ function Products() {
                         <button className="btn btn-outline-dark m-1 btn-sm" onClick={() => filterProduct("technique")}>Technique</button>
                         <button className="btn btn-outline-dark m-1 btn-sm" onClick={() => filterProduct("clothing")}>Clothing</button>
                         <button className="btn btn-outline-dark m-1 btn-sm" onClick={() => filterProduct("jewelery")}>Jewelery</button>
-                        <button className="btn btn-outline-dark m-1 btn-sm" onClick={() => filterProduct("painting")}>Paintings</button>
+                        <button className="btn btn-outline-dark m-1 btn-sm" onClick={() => filterProduct("paintings")}>Paintings</button>
                     </div>
 
                 </div>
@@ -78,7 +77,10 @@ function Products() {
         const updateList = data.filter((x) => x.category === category);
         setFilter(updateList);
     }
-
+    const filterProductByLocation = (location) => {
+        const updateList = data.filter((x) => x.location === location);
+        setFilter(updateList);
+    }
     const ShowProducts = () => {
         return (
             <>
@@ -92,6 +94,12 @@ function Products() {
                         <button className="btn btn-outline-dark m-1 btn-sm" onClick={() => filterProduct("painting")}>Paintings</button>
                     </div>
 
+                    <div className="position-sticky" style={{ top: "200px" }}>
+                        <button className="btn btn-outline-dark m-1 btn-sm" onClick={() => filterProductByLocation("Moscow")}>Moscow</button>
+                        <button className="btn btn-outline-dark m-1 btn-sm" onClick={() => filterProductByLocation("Saint-Petersburg")}>Saint-Petersburg</button>
+                        <button className="btn btn-outline-dark m-1 btn-sm" onClick={() => filterProductByLocation("Kazan")}>Kazan</button>
+                    </div>
+
                 </div>
 
                 <div className="col-md-9 py-md-3">
@@ -99,16 +107,15 @@ function Products() {
                         {filter.map((product) => {
                             return (
                                 <div className="col-6 col-md-6 col-lg-4 mb-3" key={product.id}>
-
                                     <div className="card h-100">
                                         <img src={product.advertImageLink} className="m-3" style={{ height: "300px", width: "auto", objectFit: "contain" }} alt={product.title} />
                                         <div className="m-3 mb-0">
                                             <small className="card-title">{product.title.substring(0, 50)}...</small>
-                                            {/* <small className="card-title">{product.name.substring(0, 50)}...</small> */}
                                         </div>
                                         <div style={{ marginTop: "auto" }}>
                                             <div className="d-flex justify-content-between align-items-center">
                                                 <div className="m-3"><b>${product.price}</b></div>
+                                                {/* <div className="m-2">{product.description}</div> */}
                                                 <NavLink className="stretched-link" to={`/product/${product.id}`}>
                                                     <button className="btn btn-sm m-3 border-primary">
                                                         <i className="fa fa-arrow-right text-muted"></i>

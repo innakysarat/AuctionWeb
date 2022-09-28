@@ -12,6 +12,7 @@ import RegisterPage from './components/RegisterPage'
 import ForgetPasswordPage from './components/ForgetPassword'
 import HomePage from './components/HomePage'
 import FooterAuth from './components/FooterAuth';
+import Profile from './components/Profile';
 import { AuthProvider } from './context/AuthProvider';
 
 function App() {
@@ -19,20 +20,19 @@ function App() {
     <>
       <Navbar />
       <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/products" element={<Products />} />
-        <Route exact path="/product/:id" element={<Product />} />
-        <Route exact path="/landing" element={<LandingPage />} />
+      <Route exact path="/" element={<LandingPage />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/product/:id" element={<Product />} />
         <Route path="/login"
           element={
             <AuthProvider>
               <LoginPage />
             </AuthProvider>} />
-        {/* <LoginPage /> */}
-        {/* <Route path="/login" element={<LoginPage />} /> */}
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forget-password" element={<ForgetPasswordPage />} />
-        <Route path="/home" element={<HomePage />} />
+        <Route path="/homepage" element={<HomePage />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/home" element={<Home />} />
       </Routes>
       <Footer />
       <FooterAuth />

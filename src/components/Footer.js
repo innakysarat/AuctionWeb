@@ -3,8 +3,8 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 const Footer = () => {
     const { pathname } = useLocation();
-    if (pathname === "/login" || pathname == "/register"
-        || pathname == "/forget-password" || pathname == "/landing" || pathname == "/home") return null;
+    if (pathname == "/login" || pathname == "/register"
+        || pathname == "/forget-password" || pathname =="/landing") return null;
     return (
         <div>
             <section>

@@ -12,7 +12,6 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const PHONE_REGEX = /^\d{11}$/;
 const NAME_REGEX = /^[a-zA-Z ]+$/;
-const REGISTER_URL = '/register';
 
 const SignUpPage = () => {
 
@@ -86,7 +85,12 @@ const SignUpPage = () => {
 
     useEffect(() => {
         setErrMsg('');
-    }, [user, pwd, matchPwd, fstName, sndName, email, phoneNumber])
+    }, [user, pwd, matchPwd, fstName, sndName, email, phoneNumber]);
+    const navigate = useNavigate();
+
+    const navigateLogin = () => {
+        navigate('/login');
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -129,6 +133,7 @@ const SignUpPage = () => {
             setSndName('');
             setEmail('');
             setPhoneNumber('');
+            navigateLogin();
 
         } catch (err) {
             if (!err?.response) {
@@ -141,12 +146,6 @@ const SignUpPage = () => {
             errRef.current.focus();
         }
     }
-    const navigate = useNavigate();
-
-    const navigateLogin = () => {
-        navigate('/login');
-    };
-
 
     return (
         <div className="text-center m-5-auto">
@@ -279,9 +278,9 @@ const SignUpPage = () => {
                         onBlur={() => setPhoneFocus(false)}
                     />
                 </p>
-                {/* <p>
+                <p>
                     <input type="checkbox" name="checkbox" id="checkbox" required /> <span>I agree all statements in <a href="https://google.com" target="_blank" rel="noopener noreferrer">terms of service</a></span>.
-                </p> */}
+                </p>
                 <p>
                     {/* id="sub_btn" type="submit" */}
                     <button id="sub_btn" type="submit" disabled={!validName || !validPwd || !validMatch || !validEmail ? true : false}>
@@ -300,177 +299,3 @@ const SignUpPage = () => {
 
 }
 export default SignUpPage;
-
-
-    // return (
-    //     <>
-    //         {success ? (
-    //             <section>
-    //                 <h1>Success!</h1>
-    //                 <p>
-    //                     <a href="#">Sign In</a>
-    //                 </p>
-    //             </section>
-    //         ) : (
-    //             <section>
-    //                 <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-    //                 <h1>Register</h1>
-    //                 <form onSubmit={handleSubmit}>
-    //                     <label htmlFor="username">
-    //                         Username:
-    //                         <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
-    //                         <FontAwesomeIcon icon={faTimes} className={validName || !user ? "hide" : "invalid"} />
-    //                     </label>
-    //                     <input
-    //                         type="text"
-    //                         id="username"
-    //                         ref={userRef}
-    //                         autoComplete="off"
-    //                         onChange={(e) => setUser(e.target.value)}
-    //                         value={user}
-    //                         required
-    //                         aria-invalid={validName ? "false" : "true"}
-    //                         aria-describedby="uidnote"
-    //                         onFocus={() => setUserFocus(true)}
-    //                         onBlur={() => setUserFocus(false)}
-    //                     />
-    //                     <p id="uidnote" className={userFocus && user && !validName ? "instructions" : "offscreen"}>
-    //                         <FontAwesomeIcon icon={faInfoCircle} />
-    //                         4 to 24 characters.<br />
-    //                         Must begin with a letter.<br />
-    //                         Letters, numbers, underscores, hyphens allowed.
-    //                     </p>
-
-    //                     <label htmlFor="password">
-    //                         Password:
-    //                         <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
-    //                         <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />
-    //                     </label>
-    //                     <input
-    //                         type="password"
-    //                         id="password"
-    //                         onChange={(e) => setPwd(e.target.value)}
-    //                         value={pwd}
-    //                         required
-    //                         aria-invalid={validPwd ? "false" : "true"}
-    //                         aria-describedby="pwdnote"
-    //                         onFocus={() => setPwdFocus(true)}
-    //                         onBlur={() => setPwdFocus(false)}
-    //                     />
-    //                     <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
-    //                         <FontAwesomeIcon icon={faInfoCircle} />
-    //                         8 to 24 characters.<br />
-    //                         Must include uppercase and lowercase letters, a number and a special character.<br />
-    //                         Allowed special characters:
-    //                         <span aria-label="exclamation mark">!</span>
-    //                         <span aria-label="at symbol">@</span>
-    //                         <span aria-label="hashtag">#</span>
-    //                         <span aria-label="dollar sign">$</span>
-    //                         <span aria-label="percent">%</span>
-    //                     </p>
-
-    //                     <label htmlFor="confirm_pwd">
-    //                         Confirm Password:
-    //                         <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
-    //                         <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
-    //                     </label>
-
-    //                     <input
-    //                         type="password"
-    //                         id="confirm_pwd"
-    //                         onChange={(e) => setMatchPwd(e.target.value)}
-    //                         value={matchPwd}
-    //                         required
-    //                         aria-invalid={validMatch ? "false" : "true"}
-    //                         aria-describedby="confirmnote"
-    //                         onFocus={() => setMatchFocus(true)}
-    //                         onBlur={() => setMatchFocus(false)}
-    //                     />
-    //                     <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
-    //                         <FontAwesomeIcon icon={faInfoCircle} />
-    //                         Must match the first password input field.
-    //                     </p>
-
-    //                     <label htmlFor="name">
-    //                         First name:
-    //                         <FontAwesomeIcon icon={faCheck} className={validFstName ? "valid" : "hide"} />
-    //                         <FontAwesomeIcon icon={faTimes} className={validFstName || !fstName ? "hide" : "invalid"} />
-    //                     </label>
-    //                     <input
-    //                         type="text"
-    //                         id="name"
-    //                         onChange={(e) => setFstName(e.target.value)}
-    //                         value={fstName}
-    //                         aria-invalid={validFstName ? "false" : "true"}
-    //                         aria-describedby="namenote"
-    //                         onFocus={() => setFstNameFocus(true)}
-    //                         onBlur={() => setFstNameFocus(false)}
-    //                     />
-    //                     <p id="namenote" className={fstNameFocus && !validFstName ? "instructions" : "offscreen"}>
-    //                         <FontAwesomeIcon icon={faInfoCircle} />
-    //                         Only characters are allowed.<br />
-    //                     </p>
-
-    //                     <label htmlFor="surname">
-    //                         Second name:
-    //                         <FontAwesomeIcon icon={faCheck} className={validSndName ? "valid" : "hide"} />
-    //                         <FontAwesomeIcon icon={faTimes} className={validSndName || !sndName ? "hide" : "invalid"} />
-    //                     </label>
-    //                     <input
-    //                         type="text"
-    //                         id="surname"
-    //                         onChange={(e) => setSndName(e.target.value)}
-    //                         value={sndName}
-    //                         aria-invalid={validSndName ? "false" : "true"}
-    //                         aria-describedby="surnamenote"
-    //                         onFocus={() => setSndNameFocus(true)}
-    //                         onBlur={() => setSndNameFocus(false)}
-    //                     />
-    //                     <p id="surnamenote" className={sndNameFocus && !validSndName ? "instructions" : "offscreen"}>
-    //                         <FontAwesomeIcon icon={faInfoCircle} />
-    //                         Only characters are allowed.<br />
-    //                     </p>
-
-    //                     <label htmlFor="email">
-    //                         Email:
-    //                         <FontAwesomeIcon icon={faCheck} className={validEmail ? "valid" : "hide"} />
-    //                         <FontAwesomeIcon icon={faTimes} className={validEmail || !email ? "hide" : "invalid"} />
-    //                     </label>
-    //                     <input
-    //                         type="text"
-    //                         id="email"
-    //                         onChange={(e) => setEmail(e.target.value)}
-    //                         value={email}
-    //                         required
-    //                         //aria-invalid={validEmail ? "false" : "true"}
-    //                         onFocus={() => setEmailFocus(true)}
-    //                         onBlur={() => setEmailFocus(false)}
-    //                     />
-
-    //                     <label htmlFor="phone">
-    //                         Phone number:
-    //                         <FontAwesomeIcon icon={faCheck} className={validPhoneNumber ? "valid" : "hide"} />
-    //                         <FontAwesomeIcon icon={faTimes} className={validPhoneNumber || !phoneNumber ? "hide" : "invalid"} />
-    //                     </label>
-    //                     <input
-    //                         type="text"
-    //                         id="phone"
-    //                         onChange={(e) => setPhoneNumber(e.target.value)}
-    //                         value={phoneNumber}
-    //                         //aria-invalid={validPhoneNumber ? "false" : "true"}
-    //                         onFocus={() => setPhoneFocus(true)}
-    //                         onBlur={() => setPhoneFocus(false)}
-    //                     />
-
-    //                     <button disabled={!validName || !validPwd || !validMatch || !validEmail ? true : false}
-    //                     >Sign Up</button>
-    //                 </form>
-    //                 <p>
-    //                     Have an account?<br />
-    //                     <button onClick={navigateLogin}>Sign in</button>
-    //                 </p>
-    //             </section>
-    //         )}
-    //     </>
-    // )
-
