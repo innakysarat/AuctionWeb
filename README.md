@@ -1,8 +1,8 @@
-# Auction
+# Auction Front-End
 
-API: https://github.com/innakysarat/Auction
+Spring Boot RESTful API: https://github.com/innakysarat/Auction
 
-## Tech Stack
+## Tech Stack (Front-end)
 1. HTML
 2. CSS
 3. JavaScript
